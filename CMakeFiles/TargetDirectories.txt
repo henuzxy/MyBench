@@ -1,0 +1,3 @@
+/Users/bytedancde/MyGithub/MyBench/CMakeFiles/rebuild_cache.dir
+/Users/bytedancde/MyGithub/MyBench/CMakeFiles/edit_cache.dir
+/Users/bytedancde/MyGithub/MyBench/CMakeFiles/Bench.dir
