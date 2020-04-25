@@ -1,0 +1,11 @@
+Makefile
+Bench
+*.cmake
+*.log
+*.cbp
+*.a
+CMakeFiles
+Makefile
+CMakeCache.*
+.idea
+Testing
