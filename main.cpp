@@ -8,27 +8,8 @@
 #include<time.h>
 #include<signal.h>
 #include<string.h>
-#include"socket.c"
-static void Usage(void){
-    char useinfo[] =
-        "webbench [选项参数]...URL\n"
-        "-f\t --force\t\t\t不用等待服务器响应\n"
-        "-r\t --reload\t\t\t重新请求加载(无缓存)\n"
-        "-t\t --time <sec>\t\t\t运行时间，单位：秒，默认为30秒\n"
-        "-p\t --proxy <IP:Port>\t\t使用代理服务器发送请求\n"
-        "-c\t --clients <num>\t\t创建客户端个数,默认为1\n"
-        "-9\t --http09\t\t\t使用http0.9协议\n"
-        "-1\t --http10\t\t\t使用http1.0协议\n" 
-        "-2\t --http11\t\t\t使用http1.1协议\n"
-        "\t --get\t\t\t\tGET请求方式\n"
-        "\t --head\t\t\t\tHEAD请求方式\n"
-        "\t --options\t\t\tOPTIONS请求方式\n"
-        "\t --trace\t\t\tTRACE请求方式\n"
-        "-?|-h\t --help\t\t\t\t显示帮助信息\n"
-        "-v\t --version\t\t\t显示版本信息\n"
-    ;
-    fprintf(stderr,"%s",useinfo);
-}
+#include "UserUtils.h"
+#include "MySocket.h"
 /*http请求方法的相关宏定义*/
 #define METHOD_GET (0)
 #define METHOD_HEAD (1)
@@ -39,7 +20,7 @@ static void Usage(void){
 #define bool int
 #define true (1)
 #define false (0)
-#define PROGRAM_VERSION "1.5"
+#define PROGRAM_VERSION "1.0"
 /*缓冲流大小相关的宏定义*/
 #define REQUEST_SIZE (2048)
 #define BUF_SIZE (1024)
@@ -96,7 +77,7 @@ int main(int argc,char* argv[]){
     char *temp = NULL;
 
     if(argc == 1){
-        Usage();
+        UserUtils::Usage();
         exit(1);
     }
     /*短参数选项*/
@@ -117,7 +98,7 @@ int main(int argc,char* argv[]){
                 break;
             case 'h':
             case '?':
-                Usage();
+                UserUtils::Usage();
                 exit(0);//带有该参数，程序会直接结束
             case '9':
                 http = 9;break;
@@ -153,7 +134,7 @@ int main(int argc,char* argv[]){
     fprintf(stdout,"force = %d,reload = %d,bench_time = %d,http = %d,proxyhost = %s,proxy_port = %d,clients = %d\n",force,reload,bench_time,http,proxyhost,proxy_port,clients);
     if(optind == argc){
         fprintf(stderr,"webbench:没有链接URL\n");
-        Usage();
+        UserUtils::Usage();
         exit(0);
     }
     /*考虑用户输入错误的情况,使用默认值*/
