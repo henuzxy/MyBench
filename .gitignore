@@ -9,3 +9,4 @@ Makefile
 CMakeCache.*
 .idea
 Testing
+a.out
