@@ -24,7 +24,19 @@ void CliEngine::Usage(){
     ;
     std::cout << UseInfo << std::endl;
 }
-/*长选项数组*/
+
+InputInfo CliEngine::GetInput(int argc,char *argv[]){
+    
+    /*选项相关变量与其默认值*/
+    int method = METHOD_GET;
+    int clients = 1;
+    bool force = false;
+    bool reload = false;
+    int proxy_port = 80;
+    char* proxyhost = NULL;//默认不使用代理
+    int bench_time = 30;
+    int http = 1;//http协议版本，0:http0.9 1:http1.0 2:http1.1
+    /*长选项数组*/
 static const struct option long_options[] = {
     {"force",no_argument,&force,true},
     {"reload",no_argument,&reload,true},
@@ -42,17 +54,6 @@ static const struct option long_options[] = {
     {"clients",required_argument,NULL,'c'},
     {NULL,0,NULL,0}
 };
-InputInfo CliEngine::GetInput(int argc,char *argv[]){
-    
-    /*选项相关变量与其默认值*/
-    int method = METHOD_GET;
-    int clients = 1;
-    bool force = false;
-    bool reload = false;
-    int proxy_port = 80;
-    char* proxyhost = NULL;//默认不使用代理
-    int bench_time = 30;
-    int http = 1;//http协议版本，0:http0.9 1:http1.0 2:http1.1
     for(int i=0;i<argc;++i){
         std::cout << argv[i] << std::endl;
     }
