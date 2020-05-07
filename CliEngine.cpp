@@ -51,8 +51,7 @@ static const struct option long_options[] = {
     {"trace",no_argument,&method,METHOD_TRACE},
     {"version",no_argument,NULL,'v'},
     {"proxy",required_argument,NULL,'p'},
-    {"clients",required_argument,NULL,'c'},
-    {NULL,0,NULL,0}
+    {"clients",required_argument,NULL,'c'}
 };
     for(int i=0;i<argc;++i){
         std::cout << argv[i] << std::endl;
