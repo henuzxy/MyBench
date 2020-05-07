@@ -8,7 +8,6 @@
 #include<time.h>
 #include<signal.h>
 #include<string.h>
-#include "UserUtils.h"
 #include "MySocket.h"
 #include "InputInfo.h"
 #include "CliEngine.h"
@@ -46,7 +45,6 @@ int main(int argc,char* argv[]){
     
     
     if(argc == 1){
-        UserUtils::Usage();
         exit(1);
     }
     CliEngine::getinstance().Usage();
