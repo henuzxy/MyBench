@@ -24,19 +24,6 @@ void CliEngine::Usage(){
     ;
     std::cout << UseInfo << std::endl;
 }
-
-InputInfo CliEngine::GetInput(int argc,char *argv[]){
-    
-    /*选项相关变量与其默认值*/
-    int method = METHOD_GET;
-    int clients = 1;
-    bool force = false;
-    bool reload = false;
-    int proxy_port = 80;
-    char* proxyhost = NULL;//默认不使用代理
-    int bench_time = 30;
-    int http = 1;//http协议版本，0:http0.9 1:http1.0 2:http1.1
-    cout << "Begin" << endl;
 /*长选项数组*/
 static const struct option long_options[] = {
     {"force",no_argument,&force,true},
@@ -55,71 +42,21 @@ static const struct option long_options[] = {
     {"clients",required_argument,NULL,'c'},
     {NULL,0,NULL,0}
 };
-    int opt = 0;
-    int options_index = 0;
-    char *temp = nullptr;
-/*短参数选项*/
-    const char optstring[] = "frt:h?912vp:c:";
+InputInfo CliEngine::GetInput(int argc,char *argv[]){
+    
+    /*选项相关变量与其默认值*/
+    int method = METHOD_GET;
+    int clients = 1;
+    bool force = false;
+    bool reload = false;
+    int proxy_port = 80;
+    char* proxyhost = NULL;//默认不使用代理
+    int bench_time = 30;
+    int http = 1;//http协议版本，0:http0.9 1:http1.0 2:http1.1
+    for(int i=0;i<argc;++i){
+        std::cout << argv[i] << std::endl;
+    }
 
-    while((opt = getopt_long(argc,argv,optstring,long_options,&options_index)) != EOF){
-        switch(opt){
-            case 0:
-                break;//参数值被放入对应变量，返回
-            case 'f':
-                force = true;
-                break;
-            case 'r':
-                reload = true;
-                break;
-            case 't':
-                bench_time = atoi(optarg);
-                break;
-            case 'h':
-            case '?':
-                Usage();
-                exit(0);//带有该参数，程序会直接结束
-            case '9':
-                http = 9;break;
-            case '1':
-                http = 1;break;
-            case '2':
-                http = 2;break;
-            case 'v':
-                fprintf(stdout,PROGRAM_VERSION "\n");
-                exit(0);
-            case 'p':
-                /*代理服务器格式 server:port*/
-                temp = strrchr(optarg,':');/*返回最后一个':',的位置*/
-                proxyhost = optarg;
-                if(temp == NULL)    break;
-                if(temp == optarg){
-                    fprintf(stderr,"Error in option --proxy %s:缺少主机名",optarg);
-                    exit(1);
-                }
-                if(temp == optarg+strlen(optarg)-1){
-                    fprintf(stderr,"Error in option --proxy %s:缺少端口号",optarg);
-                    exit(1);
-                }
-                *temp = '\0';
-                proxy_port = atoi(temp+1);
-                break;
-            case 'c':
-                clients = atoi(optarg);
-                break;
-        }
-        if(optind == argc){
-        fprintf(stderr,"webbench:没有链接URL\n");
-            Usage();
-            exit(0);
-        }
-        /*考虑用户输入错误的情况,使用默认值*/
-        if(clients <= 0)
-            clients = 1;
-        if(bench_time <= 0)
-            bench_time = 30;
-        }
-        //测试getopt函数
-    fprintf(stdout,"force = %d,reload = %d,bench_time = %d,http = %d,proxyhost = %s,proxy_port = %d,clients = %d\n",force,reload,bench_time,http,proxyhost,proxy_port,clients);
 
     InputInfo info(method,clients,force,reload,proxy_port,proxyhost,bench_time,http);
     return info;

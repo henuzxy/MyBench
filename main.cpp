@@ -11,7 +11,7 @@
 #include "UserUtils.h"
 #include "MySocket.h"
 #include "InputInfo.h"
-
+#include "CliEngine.h"
 /*代码相关的宏定义*/
 #define bool int
 #define true (1)
@@ -49,25 +49,25 @@ int main(int argc,char* argv[]){
         UserUtils::Usage();
         exit(1);
     }
-    
-   
-    /*构造请求消息*/ 
-    build_request(argv[optind]);
-    fprintf(stdout,"OK\n");
-    /**/
-    fprintf(stdout,"Webbench --一款网站压力测试程序\n");
-    fprintf(stdout,"测试链接:%s\n",argv[optind]);
-    fprintf(stdout,"运行信息:");
-    fprintf(stdout,"%d 客户端, 运行 %d 秒",clients,bench_time);
-    if(force)
-        fprintf(stdout,",提前关闭连接");
-    if(proxyhost != NULL)
-        fprintf(stdout,"，使用代理服务器 %s:%d",proxyhost,proxy_port);
-    if(reload)
-        fprintf(stdout,",无缓存连接");
-    fprintf(stdout,".\n");
+    CliEngine::getinstance().Usage();
 
-    return bench();
+    // /*构造请求消息*/ 
+    // build_request(argv[optind]);
+    // fprintf(stdout,"OK\n");
+    // /**/
+    // fprintf(stdout,"Webbench --一款网站压力测试程序\n");
+    // fprintf(stdout,"测试链接:%s\n",argv[optind]);
+    // fprintf(stdout,"运行信息:");
+    // fprintf(stdout,"%d 客户端, 运行 %d 秒",clients,bench_time);
+    // if(force)
+    //     fprintf(stdout,",提前关闭连接");
+    // if(proxyhost != NULL)
+    //     fprintf(stdout,"，使用代理服务器 %s:%d",proxyhost,proxy_port);
+    // if(reload)
+    //     fprintf(stdout,",无缓存连接");
+    // fprintf(stdout,".\n");
+   
+    // return bench();
 }
 
 void build_request(const char *url){

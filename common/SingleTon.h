@@ -1,9 +1,17 @@
+#include <mutex>
 template<typename T>
 class SingleTon{
 public:
-    SingleTon() = delete;
-    SingleTon(const SingleTon&) = delete;
-
+    static T& getinstance(){
+        std::once_flag once;
+        std::call_once(once,[](){
+            ptr = new T();
+        });
+        return *ptr;
+    }
+    SingleTon() = default;
 private:
-    static T *ptr;
+    static T* ptr;
 };
+template<typename T>
+T* SingleTon<T>::ptr = nullptr;
